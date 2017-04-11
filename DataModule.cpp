@@ -7,6 +7,7 @@
 #include "Global.h"
 #include "Main.h"
 #include "DebugMess.h"
+#include "Config.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -25,10 +26,12 @@ void __fastcall TDM::DataModuleCreate(TObject *Sender)//Коннектимся к БД коннект
 	Connect=false;
 	try
 	{
+#ifndef DEBUG_ITEMS
 		ADOCon->Connected=false;
 		ADOCon->ConnectionString="FILE NAME=..\\..\\Settings\\Connection.udl";
 		ADOCon->Open();
 		Connect=true;
+#endif
 	}
 	catch (...)
 	{

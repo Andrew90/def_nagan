@@ -1430,7 +1430,7 @@ object MainForm: TMainForm
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo
-    Left = 1052
+    Left = 1044
     Top = 230
     Width = 216
     Height = 230

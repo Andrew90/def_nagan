@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "GraphicsCenters.h"
+#include "Config.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -16,6 +17,7 @@ __fastcall TGraphicCentersForm::TGraphicCentersForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TGraphicCentersForm::FormCreate(TObject *Sender)
 {
+#ifndef DEBUG_ITEMS
 //	Выборка уникальных типоразмеров
 	DM->Find->Close();
 	DM->Find->SQL->Clear();
@@ -44,10 +46,12 @@ void __fastcall TGraphicCentersForm::FormCreate(TObject *Sender)
 		chart[i]->Color = clWhite;
 		DM->Find->Next();
 	}
+	#endif
 }
 //---------------------------------------------------------------------------
 void __fastcall TGraphicCentersForm::FormShow(TObject *Sender)
 {
+#ifndef DEBUG_ITEMS
 	for(int i=0; i < PageCount; i++)
 	{
 		for(int j=0; j < chart[i]->SeriesCount(); j++)
@@ -87,6 +91,7 @@ void __fastcall TGraphicCentersForm::FormShow(TObject *Sender)
 		currentRecord++;
 		}
 	}
+	#endif
 }
 //---------------------------------------------------------------------------
 void TGraphicCentersForm::DrawOnChart(String SolidGroup, int TypeSize, vector<int> coords)

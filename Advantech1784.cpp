@@ -3,10 +3,42 @@
 
 #pragma hdrstop
 #include "Advantech1784.h"
-
+#include "Config.h"
+#ifndef DEBUG_ITEMS
+#pragma comment(lib, "Adsapi32.lib")
+#endif
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+#ifdef DEBUG_ITEMS
+__fastcall Advantech1784::Advantech1784(bool CreateSuspended)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall Advantech1784::Execute()
+{
+}
+//---------------------------------------------------------------------------
+ULONG Advantech1784::GetCounter(int num)
+{
+return 0;
+}
+//---------------------------------------------------------------------------
+
+bool Advantech1784::CloseDevice()
+{
+	return true;
+}
+//---------------------------------------------------------------------------
+bool Advantech1784::Reset(int NumOfCounter)
+{
+	return true;
+}
+//---------------------------------------------------------------------------
+void Advantech1784::MyThreadCounter(void)
+{
+}
+#else
 __fastcall Advantech1784::Advantech1784(bool CreateSuspended)
 {
 	Error="Все Гуд";
@@ -160,5 +192,6 @@ void Advantech1784::MyThreadCounter(void)
 	bool cl = CloseDevice();
 	SetReturnValue(cl);
 }
+#endif
 
 

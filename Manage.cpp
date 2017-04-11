@@ -8,6 +8,7 @@
 
 #include "Manage.h"
 #include "Global.h"
+#include "Config.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -641,6 +642,7 @@ void __fastcall TManageForm::bRotationClick(TObject *Sender)
 
 void __fastcall TManageForm::TemperatureTimerTimer(TObject *Sender)
 {
+#ifndef DEBUG_ITEMS
 	UnicodeString a;
 	double buf   = lt->GetTemperature(0);
 	EditT1->Text = a.sprintf(L"%0.1f", buf);
@@ -650,6 +652,7 @@ void __fastcall TManageForm::TemperatureTimerTimer(TObject *Sender)
 	a            = "";
 	buf          = lt->GetMagnetic();
 	EditMg->Text = a.sprintf(L"%0.1f", buf);
+#endif
 }
 //---------------------------------------------------------------------------
 

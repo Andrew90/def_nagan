@@ -8,6 +8,7 @@
 #include "Protocol.h"
 #include "PrepareSG.h"
 #include "DebugMess.h"
+#include "Config.h"
 
 #pragma comment(lib, "Winmm.lib")
 //---------------------------------------------------------------------------
@@ -73,7 +74,6 @@ void LCard791::ClearBuffer()
 //------------------------------------------------------------------------------
 void LCard791::FindCard(void)
 {
-//	Ini->EraseSection("CardNames");
 	IDaqLDevice* pI=NULL;
 	int k=0;
 	for(int i=0; i<10 ;i++)
@@ -116,7 +116,6 @@ void LCard791::FindCard(void)
 		pI->Release();
 		pI=NULL;
 	}
-
 }
 //------------------------------------------------------------------------------
 bool LCard791::Initilalize(UnicodeString SerNum,bool _isDiff)

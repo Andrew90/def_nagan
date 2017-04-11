@@ -9,20 +9,20 @@
 USEFORM("Protocol.cpp", ProtocolForm);
 USEFORM("ReportsView.cpp", FormReport);
 USEFORM("Manage.cpp", ManageForm);
+USEFORM("LirOptionsUnit.cpp", LirOptionsForm);
 USEFORM("Main.cpp", MainForm);
-USEFORM("Settings.cpp", SettingsForm);
 USEFORM("ViewEtalons.cpp", FormViewEtalons);
 USEFORM("View.cpp", ViewForm);
-USEFORM("SolidGroup.cpp", SolidGroupForm);
 USEFORM("SignalsState.cpp", SignalsStateForm);
+USEFORM("Settings.cpp", SettingsForm);
 USEFORM("SolidGroupTest.cpp", SGForm);
 USEFORM("SolidGroupGraphics.cpp", Form1);
+USEFORM("SolidGroup.cpp", SolidGroupForm);
 USEFORM("ADCSettings.cpp", ADCSettForm);
 USEFORM("ABOUT_NTC_NK_URAN.cpp", AboutBox1);
 USEFORM("GraphicsCenters.cpp", GraphicCentersForm);
 USEFORM("ColorSettings.cpp", FormColor);
 USEFORM("DataModule.cpp", DM); /* TDataModule: File Type */
-USEFORM("LirOptionsUnit.cpp", LirOptionsForm);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

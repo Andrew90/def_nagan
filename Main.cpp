@@ -12,6 +12,7 @@
 #include "PrepareSG.h"
 #include "DebugMess.h"
 #include "LirOptionsUnit.h"
+#include "Config.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -58,8 +59,9 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
 	MainFormInit(Sender);
 	KeyPreview = true;
+#ifndef DEBUG_ITEMS
 	l1->FindCard(); // Ищем платы в системе
-
+#endif
 	String s1                 = ini->ReadString("CardNames", "LCard0", "");
 	String s2                 = ini->ReadString("CardNames", "LCard1", "");
 	Globals::current_typesize = ini->ReadString("Default", "TypeSize", "1");
@@ -67,17 +69,13 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
 	//Считаем пороги из ini файла
 	Globals::tubeSG.ReadThresholds();
-
+#ifndef DEBUG_ITEMS
 	bool ll1 = ((s1 != "") ? l1->Initilalize(s1, false) : false);
-  //todo	bool ll2 = ((s2 != "") ? l2->Initilalize(s2, true) : false);
- //todo	if (ll1 && ll2)
-   //todo		StatusBarBottom->Panels->Items[2]->Text = "2 платы L791 загружены";
-  //todo	else
 		if (ll1)//todo || ll2)
 			StatusBarBottom->Panels->Items[2]->Text = "1 плата L791 загружена";
 		else
 			StatusBarBottom->Panels->Items[2]->Text = "ПЛАТЫ L791 НЕ ЗАГРУЖЕНЫ";
-
+ #endif
 	short num_of_cards                      = digital->InitializeCards(false);
 	StatusBarBottom->Panels->Items[3]->Text = "Загружено плат Advantech1730: 2";// + IntToStr(num_of_cards);
 
@@ -108,6 +106,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 
 	stats = new Statistics();
 	UpdateStats();
+	#ifndef DEBUG_ITEMS
 	digital->SetOutSignal("ТС: Пит ПЧ");
 	digital->SetOutSignal("Прод Пит ПЧ");
 
@@ -140,6 +139,7 @@ void __fastcall TMainForm::FormCreate(TObject *Sender)
 			StatusBarBottom->Refresh();
 		}
 	}
+	#endif
 }
 // ---------------------------------------------------------------------------
 
@@ -161,13 +161,6 @@ void __fastcall TMainForm::FormDestroy(TObject *Sender)
 		l1->Close();
 		delete l1;
 	}
-	/*todo
-	if (l2 != NULL)
-	{
-		l2->Close();
-		delete l2;
-	}
-	 */
 	// запись дефолтного всего
 	ini->WriteString("Default", "TypeSize", cbTypeSize->Text);
 	ini->WriteBool("Default", "IsLinear", cbLinear->Checked);

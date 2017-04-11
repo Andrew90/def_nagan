@@ -15,11 +15,14 @@
 
 #include "IniFiles.hpp"
 #include "Global.h"
+#include "Config.h"
 //-----------------------------------------------------------------------------
 
 #pragma package(smart_init)
 
 AllSignals *digital;
+
+
 
 Advantech1730::Advantech1730()
 {
@@ -48,51 +51,9 @@ Advantech1730::~Advantech1730()
 	delete AdvMutex;
 }
 //------------------------------------------------------------------------------
-#if 0
 bool Advantech1730::Init(long DevNum, bool ReadOnly)
 {
-// если плата была открыта, закрываем ее
-		if (Advantech1730::device != NULL)
-		{
-			Advantech1730::device->Close();
-			Advantech1730::device = NULL;
-		}
-// открываем плату только дл€ чтени€ или с полным доступом
-		AccessMode AM = (ReadOnly) ? (ModeRead) : (ModeWrite);
-			errorCode = BDaqDevice::Open(DevNum, AM, Advantech1730::device);
-			if (BioFailed(errorCode))
-			{
-//				Application->MessageBoxW(L" ќшибка открыти€ платы Advantech 1730U",L"ќшибка!!!",MB_OK);
-				return false;
-			}
-			else if (errorCode==Success)
-			{
-				errorCode = Advantech1730::device->GetModule(0, dio);//Get Dio Module
-				if ( errorCode == Success && ReadOnly )
-					return true;
-
-				else if (errorCode == Success && !ReadOnly)
-				{
-					//write and read back DO ports' status
-					for ( int i = startPort;i < portCount + startPort; ++i)
-					bufferForWriting[i-startPort] = 0x00;
-					//Write DO portsТStatus
-					errorCode = dio->DoWrite(startPort, portCount, bufferForWriting);
-					if (errorCode == Success)
-					{
-						TThread::CurrentThread->Sleep(SleepTime);
-						//Read back DO portsТStatus
-						errorCode = dio->DoRead(startPort, portCount, bufferForReading);
-					}
-					else return false;
-				}
-				else return false;
-			}
-		return true;
-}
-#else
-bool Advantech1730::Init(long DevNum, bool ReadOnly)
-{
+#ifndef DEBUG_ITEMS
  ErrorCode errorCode;
 	instantDiCtrl = AdxInstantDiCtrlCreate();
 	instantDoCtrl = AdxInstantDoCtrlCreate();
@@ -106,8 +67,8 @@ bool Advantech1730::Init(long DevNum, bool ReadOnly)
 	if (BioFailed(errorCode))
 		throw(Exception
 		("A1730::A1730: не смогли открыть плату Advantech1730"));
-}
 #endif
+}
 //------------------------------------------------------------------------------
 bool Advantech1730::Close()
 {
@@ -155,6 +116,7 @@ bool Advantech1730::SetOutWord(unsigned int OutWord)
 //------------------------------------------------------------------------------
 bool Advantech1730::SetOutBit(byte bit)
 {
+#ifndef DEBUG_ITEMS
 	AdvMutex->Acquire();
 	errorCode = instantDoCtrl->Read(0,4,bufferForReading);
 	//dio->DoRead(startPort, portCount, bufferForReading);
@@ -166,10 +128,14 @@ bool Advantech1730::SetOutBit(byte bit)
 	bool p = SetOutWord(DoValue);
 	AdvMutex->Release();
 	return p;
+#else
+return 0;
+#endif
 }
 //------------------------------------------------------------------------------
 bool Advantech1730::ResetOutBit(byte bit)
 {
+#ifndef DEBUG_ITEMS
 	AdvMutex->Acquire();
 	errorCode = instantDoCtrl->Read(0,4,bufferForReading);
 	//dio->DoRead(startPort, portCount, bufferForReading);
@@ -181,6 +147,9 @@ bool Advantech1730::ResetOutBit(byte bit)
 	bool p = SetOutWord(DoValue);
 	AdvMutex->Release();
 	return p;
+#else
+return 0;
+#endif
 }
 //------------------------------------------------------------------------------
 bool Advantech1730::BlinkOutBit(byte bit , int userTime)
@@ -198,6 +167,7 @@ bool Advantech1730::BlinkOutBit(byte bit , int userTime)
 //------------------------------------------------------------------------------
 bool Advantech1730::CheckOutWord()
 {
+#ifndef DEBUG_ITEMS
 	bool r;
 	AdvMutex->Acquire();
 	errorCode = instantDoCtrl->Read(0,4,bufferForReading);
@@ -217,6 +187,9 @@ bool Advantech1730::CheckOutWord()
 	}
 	AdvMutex->Release();
 	return r;
+#else
+return true;
+#endif
 }
 //------------------------------------------------------------------------------
 bool Advantech1730::CheckOutBit(byte bit)
@@ -240,6 +213,7 @@ bool Advantech1730::CheckOutBit(byte bit)
 //------------------------------------------------------------------------------
 bool Advantech1730::CheckInWord()
 {
+#ifndef DEBUG_ITEMS
 	bool r;
 	AdvMutex->Acquire();
 	errorCode = instantDiCtrl->Read(0,4,bufferForReading);
@@ -259,7 +233,9 @@ bool Advantech1730::CheckInWord()
 	}
 	AdvMutex->Release();
 	return r;
-
+#else
+return true;
+#endif
 }
 //------------------------------------------------------------------------------
 bool Advantech1730::CheckInBit(byte bit)
@@ -387,41 +363,6 @@ unsigned Advantech1730::Read()
 	  instantDiCtrl->Read(0,4, (unsigned char *)&ret);
 	  return ret;
 }
-
-
-//------------------------------------------------------------------------------
-//------оператор присванивани€ дл€ структуры —игнал-----------------------------------------
-/*
-Signal Signal::operator = (int code)
-{
-	Signal ss;
-	ss.card = code / 100;
-	ss.channel = code % 100;
-	return ss;
-}
-*/
-//------------------------------------------------------------------------------
-/*
-Signal Signal::operator = (Signal s)
-{
-	Signal ss;
-	ss.card = s.card;
-	ss.channel = s.channel;
-	return ss;
-}
-*/
-//------------------------------------------------------------------------------
-/*
-Signal& Signal::operator = (Signal& s)
-{
-	card = s.card;
-	channel = s.channel;
-	return *this;
-}
-*/
-//------------------------------------------------------------------------------
-
-
 //------------------------------------------------------------------------------
 //-------------ћетоды общего класса AllSignals----------------------------------
 //------------------------------------------------------------------------------

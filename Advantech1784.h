@@ -11,7 +11,7 @@
 #include "include1784\event.h"
 #include "IniFiles.hpp"
 
-#pragma comment(lib, "Adsapi32.lib")
+
 //------------------------------------------------------------------------------
 
 class Advantech1784 : public TThread
