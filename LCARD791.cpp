@@ -254,24 +254,25 @@ void LCard791::InitADC(int Channel,double dKadr,UnicodeString Type,int Mode)
 				ap.t2.Chn[i]=SetChn(a , b );
 			}
 			*/
+
 		  for (int i = 0; i < 12; i++)
 			{
 				int a=Ini->ReadInteger("PP","Range"+IntToStr(i),i);
 				int b=Ini->ReadInteger("PP","Number"+IntToStr(i),i);
 				ap.t2.Chn[i]=SetChn(a , b );
 			}
-		  for (int k = 12; k < 12 + 4; k++)
+		  for (int i = 12;i < 12 + 4; i++)
 			{
-				int i = k - 12;
+			   //	int i = k - 12;
 				int a=Ini->ReadInteger("PR","Range"+IntToStr(i),i);
 				int b=Ini->ReadInteger("PR","Number"+IntToStr(i),i);
 				ap.t2.Chn[k]=SetChn(a , b );
 			}
 		//  for (int i = 0; i < 2; i++)
 			{
-				int a=Ini->ReadInteger("OtherSettings","SensorSG",20);
+				int a=Ini->ReadInteger("OtherSettings","SensorSG",25);
 				ap.t2.Chn[16]=SetChn(1, a );
-				a=Ini->ReadInteger("OtherSettings", "SensorCurr",21);
+				a=Ini->ReadInteger("OtherSettings", "SensorCurr",26);
 				ap.t2.Chn[17]=SetChn(1, a );
 			}
 			/*
