@@ -1,4 +1,4 @@
 #ifndef Config_h
 #define Config_h
-#define DEBUG_ITEMS
+#undef DEBUG_ITEMS
 #endif

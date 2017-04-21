@@ -504,7 +504,7 @@ void TMainForm::SetSolidGroup(TObject *Sender)
 	}
 }
 // ---------------------------------------------------------------------------
-char gr[] {'E', 'K', 'D'};
+char gr[] = {'E', 'K', 'D'};
 unsigned grCounter = 0;
 void TMainForm::IdentifySolidGroup()
 {
