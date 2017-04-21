@@ -504,7 +504,8 @@ void TMainForm::SetSolidGroup(TObject *Sender)
 	}
 }
 // ---------------------------------------------------------------------------
-
+char gr[] {'E', 'K', 'D'};
+unsigned grCounter = 0;
 void TMainForm::IdentifySolidGroup()
 {
 	// *********считаем группу прочности*************************
@@ -567,8 +568,9 @@ void TMainForm::IdentifySolidGroup()
 	{
 		using namespace SolidGroups;
 //		String result = Globals::tubeSG.calcSolidGroup(tubeSG.Coordinates());
-		String result = tubeSG.calcSolidGroup(tubeSG.Coordinates());
-		result = tubeSG.calcSolidGroup(tubeSG.Coordinates());
+		String result = gr[grCounter];//tubeSG.calcSolidGroup(tubeSG.Coordinates());
+   ///		result = tubeSG.calcSolidGroup(tubeSG.Coordinates());
+
 		pSolidGroup->Caption = result;
 		if(result == "K")
 			{
@@ -1712,13 +1714,7 @@ void __fastcall TMainForm::LirOptionsMenuItemClick(TObject *Sender)
        LirOptionsForm->ShowModal();
 }
 //---------------------------------------------------------------------------
-char gr[] =
-{
-  'D'
-  , 'K'
-  , 'E'
-};
-static unsigned grCounter = 0;
+
 void __fastcall TMainForm::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y)
 {
