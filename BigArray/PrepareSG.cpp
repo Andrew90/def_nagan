@@ -24,7 +24,7 @@ void PrepareSG::Do(unsigned long *Base, int len, unsigned *time, vector<int> (&r
 	{
 		if (timeStart < time[k])
 		{
-			o0 = int(((double)(k - 1) + (timeStart - time[k - 1]) / (time[k] - time[k - 1])) * buffer_size / count_sensors);
+			o0 = int(((double)(k - 1) + (double)(timeStart - time[k - 1]) / (time[k] - time[k - 1])) * buffer_size / count_sensors);
 			break;
 		}
 	}
@@ -33,11 +33,10 @@ void PrepareSG::Do(unsigned long *Base, int len, unsigned *time, vector<int> (&r
 	{
 		if (timeStop < time[k])
 		{
-			o1 = int(((double)(k - 1) + (timeStop - time[k - 1]) / (time[k] - time[k - 1])) * buffer_size / count_sensors);
+			o1 = int(((double)(k - 1) + (double)(timeStop - time[k - 1]) / (time[k] - time[k - 1])) * buffer_size / count_sensors);
 			break;
 		}
 	}
-	if(o1 == 0) o1 = (k - 1) * buffer_size / count_sensors;
 
 	int offs = 10 * (o1 - o0) / 100;
 
@@ -51,7 +50,28 @@ void PrepareSG::Do(unsigned long *Base, int len, unsigned *time, vector<int> (&r
 	for (int i = start; i < stop; ++i)
 	{
 		j = i * count_sensors;
-		
+
+		short t = Base[j - 2];
+		res[kk] = t;
+		++kk;
+		t = Base[j - 1];
+		res[kk] = t;
+		++kk;
+	}
+}
+
+void PrepareSG::TestDo(unsigned long *Base, int len, unsigned *time, std::vector<int> (&res))
+{
+	unsigned start = 0;
+	unsigned stop = len / count_sensors;
+	res.resize((stop - start) * 2);
+
+    int j = 0;
+	int kk = 0;
+	for (int i = start; i < stop; ++i)
+	{
+		j = i * count_sensors;
+
 		short t = Base[j - 2];
 		res[kk] = t;
 		++kk;

@@ -517,7 +517,7 @@ bool LCard791::Stop()         //Останавливаем сбор
 		ProtocolForm->SendToProtocol("Index= "+UnicodeString(Index) );
 
 		collect=false;
-		WaitForSingleObject(hThread,100);       //Ждем завершения потока
+		WaitForSingleObject(hThread,10000);       //Ждем завершения потока
 		CloseHandle(hThread);                        //Закрываем поток
 		FlStart=false;
 		return true;
@@ -728,7 +728,11 @@ void LCard791::PrepareSGData( bool Test, vector<int> (&res))
 	}
 	int ppp=SG.size();
 	*/
-	if(Index)PrepareSG::Instance().Do(Base, Index, timeOffs, res);
+	if(Test)
+	{
+        PrepareSG::Instance().TestDo(Base, Index, timeOffs, res);
+    }
+	else if(Index)PrepareSG::Instance().Do(Base, Index, timeOffs, res);
 }
 
 void LCard791::PrepareSGDataTest( vector<int> (&res))
