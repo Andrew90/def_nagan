@@ -1712,4 +1712,41 @@ void __fastcall TMainForm::LirOptionsMenuItemClick(TObject *Sender)
        LirOptionsForm->ShowModal();
 }
 //---------------------------------------------------------------------------
+char gr[] =
+{
+  'D'
+  , 'K'
+  , 'E'
+};
+static unsigned grCounter = 0;
+void __fastcall TMainForm::FormMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
+{
+	  if(Button == TMouseButton::mbRight)++grCounter;
+	  grCounter %= 3;
+	 char result = gr[grCounter];
+	 pSolidGroup->Caption = result;
+	 using namespace SolidGroups;
+	 if(result == 'K')
+			{
+				pSolidGroup->Color = clGreen;
+//				Globals::tubeSG.setSolidGroup(Group::Types::sgK);
+				tubeSG.setSolidGroup(Group::Types::sgK);
+			}
+		else
+		if(result == 'E')
+			{
+				pSolidGroup->Color = clBlue;
+//				Globals::tubeSG.setSolidGroup(Group::Types::sgE);
+				tubeSG.setSolidGroup(Group::Types::sgE);
+			}
+		else
+			{
+				pSolidGroup->Color = clYellow;
+//				Globals::tubeSG.setSolidGroup(Group::Types::sgD);
+				tubeSG.setSolidGroup(Group::Types::sgD);
+			}
+				pSolidGroup->Refresh();
+}
+//---------------------------------------------------------------------------
 
